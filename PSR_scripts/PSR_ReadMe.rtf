@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww21560\viewh12440\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 This read me file describes the scripts, and general work flow for PSR AMOC reconstructions, especially in the context of pseudo proxy studies.\
+\
+Data files:\
+species.depth.csv - habitat depth range for foraminifera species. Sessile organisms (bivalves, sponges) have known depth and are listed as NA here.\
+\
+SSTProxyDat.csv - this is the actual Mg/Ca data. There are other temperature proxies (Uk37, Tex86, etc., but they get ignored for now). Columns for each record are 1) a unique index 2) year 3) the geochemical value (e.g. Mg/Ca in mmol/mol) and 4) the temperature corresponding to that geochemical value in the original publication. The first row for each record also includes the averages sampling resolution in samples per 100 years, the Ocean2K ID if available, a short name, the type of archive, the DOI of the original publication, the latitude and longitude, the depth (as negative elevation), the seasonality assigned in the original publication (if seasonality wasn\'92t given high latitude are assumed MAMJJA, and low latitude mean annual), the species, the equation used to estimate T in the original publication, the DOI of that calibration, and the uncertainty of that calibration.\
+\
+O18ProxyDat.csv - similar to the file above, but for oxygen isotope data. \
+\
+AnnualData subdirectory - this folder has many .rds files. (NOTE: rds is just a format that gives a little more flexibility in naming an object when read into R). Each file is annual average data for the locations of proxy data in SSTProxyDat.csv and O18ProxyDat.csv. The annual average accounts for seasonality and the habitat depth in species.depth.csv. Each file is named XXYYZZ_AA or XXYYZZ_AA_BB, where XX is the model, YY is the name of the specific simulation, ZZ is the type of simulation (either LM for last millennium or piC for pre-industrial control), AA is the model variable (either T, salt, H2O18, AMOC, NAO or NAM) and, when appropriate, BB describes whether the model variable is at the locations of Mg/Ca records or d18O records. For example, GISSgCpiC_H2O18_O18 is d18O of seawater data at the locations of d18O paleoclimate records, and is from simulation gC, which is a preindustrial control run of the GISS model.\
+\
+forcings subdirectory - this give the radiative forcings for each simulation and also an R script to bin/merge them\
+\
+R scripts:\
+Proxybin_anomIND.R - describes the general spatial/temporal distribution of proxy data, calculates anomalies relative to the entire length of the proxy data and bins. The variables wl and dt dictate the window length (wl) and timestep for shifting bins (dt). This script requires the ply, maps, mapproj and mapdata R libraries to be installed. It requires SSTProxyDat.csv and O18ProxyDat.csv. Output files have the form XX_dtYYwlZZAA where XX is either MgCa or O18, YY is time interval dt bins are shifted, ZZ in the window length wl, and AA is either anon or std.anom.\
+\
+sim_PSMbin.R - takes the annual T, salt and H2O18 data forward models calcite d18O, and Mg/Ca. GISS data is also detrended following Allegra\'92s advice. Bins model-based calcite d18O and Mg/Ca in the same way as proxy data (usually either 50 or 100 years), calculates anomalies and standard anomalies, then combines piC anomalies in one file and LM anomalies in a another for each variable. Output files have the form XX_YY.AA, where XX is either piC or LM, YY is O18, MgCa, AMOC, NAM or NAO (and includes std if its standardized anomalies) and AA is the width of the bin. Each of these files is an m by n matrix where the number of rows corresponds to the locations of actual paleoclimate proxy records and n each of the bins.\
+\
+PSR_piC+LM.R - the PSR itself. A subset of proxy data are assigned to be calibration data, and the catalog of binned simulation data are searched at these sites to find the n catalog members that are most similar to proxy data. The mean of the best n catalog members at the sites not included in the calibration (i.e. validation sites) are compared to actual paleoclimate data at those sites to evaluate skill. This is repeated many times for different combinations of calibration and validation sites. Of those, iterations with the highest RE are retained as the overall best analogs. AMOC, NAM, NAO in those overall best analogs can be examined. Choices are the number of times to randomly sample calibration/validation (n.it), the number of model bins to keep per iteration (n), the proportion of data in the calibration (prct.cal), the number of best RE to include in the overall best analog (nn) and the width of bins (bin.width). There are also options to scale data, set a minimum sampling resolution and look at specific proxy type or type of simulation. \
+  \
+\
+ }
