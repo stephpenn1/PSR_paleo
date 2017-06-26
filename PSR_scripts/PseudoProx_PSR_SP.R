@@ -2,108 +2,133 @@
 #Pseudoproxy construction
 #Created 6-16-17
 
+library(RColorBrewer)
+library(hexbin)
+
 #target SNR
 SNR<-0.5
 
-##
-X<-HadpiC_O18
-#find variance of noise needed to reach target SNR
-varNreq<-var(X)/(SNR^2)
-#create matrix of noise to match model dims
-R<-43
-C<-999
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-#verify SNR value
-SNRcheck<-sqrt(var(X)/var(N))
-#add noise to model data
-HadpiC_O18_PP<-X+N
+for (i in 1:nrow(HadpiC_O18)) {
+  varNreq<-matrix(var(HadpiC_O18[i,])/(SNR^2),R,C)
+  R<-43
+  C<-999
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(HadpiC_O18[i,])/var(N[i,])),R,C)
+}
+HadpiC_O18_PP<-HadpiC_O18+N
 
+#high density scatter plot
+bin<-hexbin(HadpiC_O18_PP, HadpiC_O18, xbins=40)
+my_colors=colorRampPalette(rev(brewer.pal(11,'Spectral')))
+plot(bin, main="HadpiC_018" , colramp=my_colors , legend=F ) 
+
+#scatter with regression/lowess
+plot(HadpiC_O18_PP,HadpiC_O18, xlab = "HadpiC_O18_PP", ylab = "HadpiC_O18") 
+title(main = "HadpiC_O18")
+abline(lm(HadpiC_O18~HadpiC_O18_PP, na.action = NULL), col="red")
+lines(lowess(HadpiC_O18_PP,HadpiC_O18), col="blue")
+
+#plot
+plot(seq(1:length(X)),HadpiC_O18_PP)
 plot(seq(1:length(X)),X)
 points(seq(1:length(X)),HadpiC_O18_PP,col="red")
 title(main = "HadpiC_018")
 
-X<-HadpiC_MgCa
-varNreq<-var(X)/(SNR^2)
-R<-31
-C<-999
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-HadpiC_MgCa_PP<-X+N
+for (i in 1:nrow(HadpiC_MgCa)) {
+  varNreq<-matrix(var(HadpiC_MgCa[i,])/(SNR^2),R,C)
+  R<-31
+  C<-999
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(HadpiC_MgCa[i,])/var(N[i,])),R,C)
+}
+HadpiC_MgCa_PP<-HadpiC_MgCa + N
 
-X<-GISSgCpiC_O18
-varNreq<-var(X)/(SNR^2)
-R<-43
-C<-1100
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgCpiC_O18_PP<-X+N
+for (i in 1:nrow(GISSgCpiC_O18)) {
+  varNreq<-matrix(var(GISSgCpiC_O18[i,])/(SNR^2),R,C)
+  R<-43
+  C<-1100
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgCpiC_O18[i,])/var(N[i,])),R,C)
+}
+GISSgCpiC_O18_PP<-GISSgCpiC_O18 + N
 
-X<-GISSgCpiC_MgCa
-varNreq<-var(X)/(SNR^2)
-R<-31
-C<-1100
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgCpiC_MgCa_PP<-X+N
+for (i in 1:nrow(GISSgCpiC_MgCa)) {
+  varNreq<-matrix(var(GISSgCpiC_MgCa[i,])/(SNR^2),R,C)
+  R<-31
+  C<-1100
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgCpiC_MgCa[i,])/var(N[i,])),R,C)
+}
+GISSgCpiC_MgCa_PP<-GISSgCpiC_MgCa + N
 
-X<-GISSgy3piC_O18
-varNreq<-var(X)/(SNR^2)
-R<-43
-C<-160
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgy3piC_O18_PP<-X+N
+for (i in 1:nrow(GISSgy3piC_O18)) {
+  varNreq<-matrix(var(GISSgy3piC_O18[i,])/(SNR^2),R,C)
+  R<-43
+  C<-160
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgy3piC_O18[i,])/var(N[i,])),R,C)
+}
+GISSgy3piC_O18_PP<-GISSgy3piC_O18 + N
 
-X<-GISSgy3piC_MgCa
-varNreq<-var(X)/(SNR^2)
-R<-31
-C<-160
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgy3piC_MgCa_PP<-X+N
+for (i in 1:nrow(GISSgy3piC_MgCa)) {
+  varNreq<-matrix(var(GISSgy3piC_MgCa[i,])/(SNR^2),R,C)
+  R<-31
+  C<-160
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgy3piC_MgCa[i,])/var(N[i,])),R,C)
+}
+GISSgy3piC_MgCa_PP<-GISSgy3piC_MgCa + N
 
-X<-GISSgTckLM_O18
-varNreq<-var(X)/(SNR^2)
-R<-44
-C<-1100
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgTckLM_O18_PP<-X+N
+for (i in 1:nrow(GISSgTckLM_O18)) {
+  varNreq<-matrix(var(GISSgTckLM_O18[i,])/(SNR^2),R,C)
+  R<-44
+  C<-1100
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgTckLM_O18[i,])/var(N[i,])),R,C)
+}
+GISSgTckLM_O18_PP<-GISSgTckLM_O18 + N
 
-X<-GISSgTckLM_MgCa
-varNreq<-var(X)/(SNR^2)
-R<-31
-C<-1100
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgTckLM_MgCa_PP<-X+N
+for (i in 1:nrow(GISSgTckLM_MgCa)) {
+  varNreq<-matrix(var(GISSgTckLM_MgCa[i,])/(SNR^2),R,C)
+  R<-31
+  C<-1100
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgTckLM_MgCa[i,])/var(N[i,])),R,C)
+}
+GISSgTckLM_MgCa_PP<-GISSgTckLM_MgCa + N
 
-X<-GISSgTKckLM_O18
-varNreq<-var(X)/(SNR^2)
-R<-44
-C<-1100
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgTKckLM_O18_PP<-X+N
+for (i in 1:nrow(GISSgTKckLM_O18)) {
+  varNreq<-matrix(var(GISSgTKckLM_O18[i,])/(SNR^2),R,C)
+  R<-44
+  C<-1100
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgTKckLM_O18[i,])/var(N[i,])),R,C)
+}
+GISSgTKckLM_O18_PP<-GISSgTKckLM_O18 + N
 
-X<-GISSgTKckLM_MgCa
-varNreq<-var(X)/(SNR^2)
-R<-31
-C<-1100
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-SNRcheck<-sqrt(var(X)/var(N))
-GISSgTKckLM_MgCa_PP<-X+N
+for (i in 1:nrow(GISSgTKckLM_MgCa)) {
+  varNreq<-matrix(var(GISSgTKckLM_MgCa[i,])/(SNR^2),R,C)
+  R<-31
+  C<-1100
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgTKckLM_MgCa[i,])/var(N[i,])),R,C)
+}
+GISSgTKckLM_MgCa_PP<-GISSgTKckLM_MgCa + N
 
-X<-GISSgTcsLM_O18
-varNreq<-var(X)/(SNR^2)
-R<-44
-C<-999
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-GISSgTcsLM_O18_PP<-X+N
+for (i in 1:nrow(GISSgTcsLM_O18)) {
+  varNreq<-matrix(var(GISSgTcsLM_O18[i,])/(SNR^2),R,C)
+  R<-44
+  C<-999
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgTcsLM_O18[i,])/var(N[i,])),R,C)
+}
+GISSgTcsLM_O18_PP<-GISSgTcsLM_O18 + N
 
-X<-GISSgTcsLM_MgCa
-varNreq<-var(X)/(SNR^2)
-R<-31
-C<-999
-N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
-GISSgTcsLM_MgCa_PP<-X+N
+for (i in 1:nrow(GISSgTcsLM_MgCa)) {
+  varNreq<-matrix(var(GISSgTcsLM_MgCa[i,])/(SNR^2),R,C)
+  R<-31
+  C<-999
+  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+  SNRcheck<-matrix(sqrt(var(GISSgTcsLM_MgCa[i,])/var(N[i,])),R,C)
+}
+GISSgTcsLM_MgCa_PP<-GISSgTcsLM_MgCa + N
