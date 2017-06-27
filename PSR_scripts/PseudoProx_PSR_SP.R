@@ -132,3 +132,18 @@ for (i in 1:nrow(GISSgTcsLM_MgCa)) {
   SNRcheck<-matrix(sqrt(var(GISSgTcsLM_MgCa[i,])/var(N[i,])),R,C)
 }
 GISSgTcsLM_MgCa_PP<-GISSgTcsLM_MgCa + N
+
+#save as CSV
+write.csv(HadpiC_O18_PP, file = "HadpiC_O18_PP.csv", row.names = FALSE)
+write.csv(HadpiC_MgCa_PP, file = "HadpiC_MgCa_PP.csv", row.names = FALSE)
+write.csv(GISSgCpiC_O18_PP, file = "GISSgCpiC_O18_PP.csv", row.names = FALSE)
+write.csv(GISSgCpiC_MgCa_PP, file = "GISSgCpiC_MgCa_PP.csv", row.names = FALSE)
+write.csv(GISSgy3piC_O18_PP, file = "GISSgy3piC_O18_PP.csv", row.names = FALSE)
+write.csv(GISSgy3piC_MgCa_PP, file = "GISSgy3piC_MgCa_PP.csv", row.names = FALSE)
+write.csv(GISSgTckLM_O18_PP, file = "GISSgTckLM_O18_PP.csv", row.names = FALSE)
+write.csv(GISSgTckLM_MgCa_PP, file = "GISSgTckLM_MgCa_PP.csv", row.names = FALSE)
+write.csv(GISSgTKckLM_O18_PP, file = "GISSgTKckLM_O18_PP.csv", row.names = FALSE)
+write.csv(GISSgTKckLM_MgCa_PP, file = "GISSgTKckLM_MgCa_PP.csv", row.names = FALSE)
+write.csv(GISSgTcsLM_O18_PP, file = "GISSgTcsLM_O18_PP.csv", row.names = FALSE)
+write.csv(GISSgTcsLM_MgCa_PP, file = "GISSgTcsLM_MgCa_PP.csv", row.names = FALSE)
+
