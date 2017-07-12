@@ -3,7 +3,7 @@
 #----Stephanie Pennington version for generating pseudoproxy data----#
 #Edited June 19, 2017
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_scripts/");
+setwd("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/");
 
 #constants
 R18SMOW<-0.0020052																								#18R for VSMOW
@@ -12,82 +12,82 @@ width<-50																									#bin width
 step<-10																										#bin step				
 
 #read in annual simulation data
-HadpiC_T_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_T_O18")
+HadpiC_T_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_T_O18")
 HadpiC_T_O18<-HadpiC_T_O18[,-1]																					#delete first column of NAs
-HadpiC_H2O18_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_H2O18_O18")
+HadpiC_H2O18_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_H2O18_O18")
 HadpiC_H2O18_O18<-HadpiC_H2O18_O18[,-1]
 HadpiC_H2O18_O18<-(HadpiC_H2O18_O18/R18SMOW-1)*1000																#convert to delta notation
-HadpiC_T_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_T_MgCa")
+HadpiC_T_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_T_MgCa")
 HadpiC_T_MgCa<-HadpiC_T_MgCa[,-1]
-HadpiC_salt_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_salt_MgCa")
+HadpiC_salt_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_salt_MgCa")
 HadpiC_salt_MgCa<-HadpiC_salt_MgCa[,-1]
-HadpiC_AMOC<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_AMOC")
-HadpiC_NAM<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_NAM")
-HadpiC_NAO<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/HadpiC_NAO")
+HadpiC_AMOC<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_AMOC")
+HadpiC_NAM<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_NAM")
+HadpiC_NAO<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/HadpiC_NAO")
 
-GISSgCpiC_T_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_T_O18")
+GISSgCpiC_T_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_T_O18")
 GISSgCpiC_T_O18[,848]<-rowMeans(GISSgCpiC_T_O18,na.rm=TRUE)														#replace an outlier in year 848 with mean
 GISSgCpiC_T_O18<-GISSgCpiC_T_O18[,-1]																			
-GISSgCpiC_H2O18_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_H2O18_O18")
+GISSgCpiC_H2O18_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_H2O18_O18")
 GISSgCpiC_H2O18_O18<-GISSgCpiC_H2O18_O18[,-1]
-GISSgCpiC_T_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_T_MgCa")
+GISSgCpiC_T_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_T_MgCa")
 GISSgCpiC_T_MgCa[,848]<-rowMeans(GISSgCpiC_T_MgCa,na.rm=TRUE)													#replace an outlier in year 848 with mean
 GISSgCpiC_T_MgCa<-GISSgCpiC_T_MgCa[,-1]
-GISSgCpiC_salt_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_salt_MgCa")
+GISSgCpiC_salt_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_salt_MgCa")
 GISSgCpiC_salt_MgCa[,848]<-rowMeans(GISSgCpiC_salt_MgCa,na.rm=TRUE)												#replace an outlier in year 848 with mean
 GISSgCpiC_salt_MgCa<-GISSgCpiC_salt_MgCa[,-1]
-GISSgCpiC_AMOC<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_AMOC")
-GISSgCpiC_NAM<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_NAM")
-GISSgCpiC_NAO<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_NAO")
+GISSgCpiC_AMOC<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_AMOC")
+GISSgCpiC_NAM<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_NAM")
+GISSgCpiC_NAO<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgCpiC_NAO")
 
-GISSgy3piC_T_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_T_O18")
+GISSgy3piC_T_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_T_O18")
 GISSgy3piC_T_O18<-GISSgy3piC_T_O18[,-1]
-GISSgy3piC_H2O18_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_H2O18_O18")
+GISSgy3piC_H2O18_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_H2O18_O18")
 GISSgy3piC_H2O18_O18<-GISSgy3piC_H2O18_O18[,-1]
-GISSgy3piC_T_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_T_MgCa")
+GISSgy3piC_T_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_T_MgCa")
 GISSgy3piC_T_MgCa<-GISSgy3piC_T_MgCa[,-1]
-GISSgy3piC_salt_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_salt_MgCa")
+GISSgy3piC_salt_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_salt_MgCa")
 GISSgy3piC_salt_MgCa<-GISSgy3piC_salt_MgCa[,-1]
-GISSgy3piC_AMOC<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_AMOC")
-GISSgy3piC_NAM<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_NAM")
-GISSgy3piC_NAO<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_NAO")
+GISSgy3piC_AMOC<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_AMOC")
+GISSgy3piC_NAM<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_NAM")
+GISSgy3piC_NAO<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgy3piC_NAO")
 
-GISSgTckLM_T_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_T_O18")
+GISSgTckLM_T_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_T_O18")
 GISSgTckLM_T_O18<-GISSgTckLM_T_O18[,-1]
-GISSgTckLM_H2O18_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_H2O18_O18")
+GISSgTckLM_H2O18_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_H2O18_O18")
 GISSgTckLM_H2O18_O18<-GISSgTckLM_H2O18_O18[,-1]
-GISSgTckLM_T_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_T_MgCa")
+GISSgTckLM_T_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_T_MgCa")
 GISSgTckLM_T_MgCa<-GISSgTckLM_T_MgCa[,-1]
-GISSgTckLM_salt_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_salt_MgCa")
+GISSgTckLM_salt_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_salt_MgCa")
 GISSgTckLM_salt_MgCa<-GISSgTckLM_salt_MgCa[,-1]
-GISSgTckLM_AMOC<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_AMOC")
-GISSgTckLM_NAM<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_NAM")
-GISSgTckLM_NAO<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_NAO")
+GISSgTckLM_AMOC<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_AMOC")
+GISSgTckLM_NAM<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_NAM")
+GISSgTckLM_NAO<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTckLM_NAO")
 
-GISSgTKckLM_T_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_T_O18")
+GISSgTKckLM_T_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_T_O18")
 GISSgTKckLM_T_O18<-GISSgTKckLM_T_O18[,-1]
-GISSgTKckLM_H2O18_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_H2O18_O18")
+GISSgTKckLM_H2O18_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_H2O18_O18")
 GISSgTKckLM_H2O18_O18<-GISSgTKckLM_H2O18_O18[,-1]
-GISSgTKckLM_T_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_T_MgCa")
+GISSgTKckLM_T_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_T_MgCa")
 GISSgTKckLM_T_MgCa<-GISSgTKckLM_T_MgCa[,-1]
-GISSgTKckLM_salt_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_salt_MgCa")
+GISSgTKckLM_salt_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_salt_MgCa")
 GISSgTKckLM_salt_MgCa<-GISSgTKckLM_salt_MgCa[,-1]
 missing<-which(is.na(GISSgTKckLM_salt_MgCa)==TRUE)																	#some salt values seem to be missing. 
-GISSgTKckLM_AMOC<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_AMOC")
-GISSgTKckLM_NAM<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_NAM")
-GISSgTKckLM_NAO<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_NAO")
+GISSgTKckLM_AMOC<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_AMOC")
+GISSgTKckLM_NAM<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_NAM")
+GISSgTKckLM_NAO<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTKckLM_NAO")
 
-GISSgTcsLM_T_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_T_O18")
+GISSgTcsLM_T_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_T_O18")
 GISSgTcsLM_T_O18<-GISSgTcsLM_T_O18[,-1]
-GISSgTcsLM_H2O18_O18<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_H2O18_O18")
+GISSgTcsLM_H2O18_O18<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_H2O18_O18")
 GISSgTcsLM_H2O18_O18<-GISSgTcsLM_H2O18_O18[,-1]
-GISSgTcsLM_T_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_T_MgCa")
+GISSgTcsLM_T_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_T_MgCa")
 GISSgTcsLM_T_MgCa<-GISSgTcsLM_T_MgCa[,-1]
-GISSgTcsLM_salt_MgCa<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_salt_MgCa")
+GISSgTcsLM_salt_MgCa<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_salt_MgCa")
 GISSgTcsLM_salt_MgCa<-GISSgTcsLM_salt_MgCa[,-1]
-GISSgTcsLM_AMOC<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_AMOC")
-GISSgTcsLM_NAM<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_NAM")
-GISSgTcsLM_NAO<-readRDS("/Users/SP/Desktop/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_NAO")
+GISSgTcsLM_AMOC<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_AMOC")
+GISSgTcsLM_NAM<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_NAM")
+GISSgTcsLM_NAO<-readRDS("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/GISSgTcsLM_NAO")
 
 #for GISS detrend following Allegra's advice. Detrend all variables with the same parameters.
 for (i in 1:nrow(GISSgCpiC_T_O18)) {
