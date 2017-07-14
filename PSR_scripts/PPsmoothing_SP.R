@@ -63,255 +63,343 @@ GISSgTckLM_MgCa_PPmarSed<-read.csv("GISSgTckLM_MgCa_PPmarSed.csv")
 GISSgTKckLM_MgCa_PPmarSed<-read.csv("GISSgTKckLM_MgCa_PPmarSed.csv")
 GISSgTcsLM_MgCa_PPmarSed<-read.csv("GISSgTcsLM_MgCa_PPmarSed.csv")
 
-#HadpiC_O18_PPmarSed
+res<-metadataO18[,4]      #pull avg sample resolution from O18 metadata
+resIndex<-res[sedIndex]      #pull out only marine sediment sample resolutions
 
-data<-HadpiC_O18_PPmarSed    #pseudoproxy timeseries to be smoothed
+#HadpiC_O18
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
+data<-HadpiC_O18_PPmarSed
+s<-seq(1,999)            # set length of data
 
-s<-seq(1,39960)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
+HadpiC_O18_PPsmooth<-matrix(data = NA, 40, 999)   #create empty matrix for smoothed data
 
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-HadpiC_O18_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  HadpiC_O18_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }                              #to make sure gaussian curve has odd number of weights
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))       #begin location for running avg
+  end<-seq(length(weight),ncol(data))          #end location for running avg
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    HadpiC_O18_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#HadpiC_MgCa
 
-#HadpiC_MgCa_PPmarSed
+data<-HadpiC_MgCa_PPmarSed
+s<-seq(1,999)
 
-data<-HadpiC_MgCa_PPmarSed    #pseudoproxy timeseries to be smoothed
+HadpiC_MgCa_PPsmooth<-matrix(data = NA, 28, 999)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,27972)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-HadpiC_MgCa_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  HadpiC_MgCa_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    HadpiC_MgCa_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgCpiC_O18
 
-#GISSgCpiC_O18_PPmarSed
+data<-GISSgCpiC_O18_PPmarSed
+s<-seq(1,1100)
 
-data<-GISSgCpiC_O18_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgCpiC_O18_PPsmooth<-matrix(data = NA, 40, 1100)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,44000)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgCpiC_O18_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgCpiC_O18_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgCpiC_O18_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgCpiC_MgCa
 
-#GISSgCpiC_MgCa_PPmarSed
+data<-GISSgCpiC_MgCa_PPmarSed
+s<-seq(1,1100)
 
-data<-GISSgCpiC_MgCa_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgCpiC_MgCa_PPsmooth<-matrix(data = NA, 28, 1100)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,30800)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgCpiC_MgCa_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgCpiC_MgCa_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgCpiC_MgCa_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgy3piC_O18
 
-#GISSgy3piC_O18_PPmarSed
+data<-GISSgy3piC_O18_PPmarSed
+s<-seq(1,160)
 
-data<-GISSgy3piC_O18_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgy3piC_O18_PPsmooth<-matrix(data = NA, 40, 160)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,6400)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgy3piC_O18_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgy3piC_O18_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgy3piC_O18_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgy3piC_MgCa
 
-#GISSgy3piC_MgCa_PPmarSed
+data<-GISSgy3piC_MgCa_PPmarSed
+s<-seq(1,160)
 
-data<-GISSgy3piC_MgCa_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgy3piC_MgCa_PPsmooth<-matrix(data = NA, 28, 160)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,4448)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgy3piC_MgCa_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgy3piC_MgCa_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgy3piC_MgCa_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgTckLM_O18
 
-#GISSgTckLM_O18_PPmarSed
+data<-GISSgTckLM_O18_PPmarSed
+s<-seq(1,1100)
 
-data<-GISSgTckLM_O18_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgTckLM_O18_PPsmooth<-matrix(data = NA, 40, 1100)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,44000)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgTckLM_O18_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgTckLM_O18_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgTckLM_O18_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgTckLM_MgCa
 
-#GISSgTckLM_MgCa_PPmarSed
+data<-GISSgTckLM_MgCa_PPmarSed
+s<-seq(1,1100)
 
-data<-GISSgTckLM_MgCa_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgTckLM_MgCa_PPsmooth<-matrix(data = NA, 28, 1100)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,30800)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgTckLM_MgCa_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgTckLM_MgCa_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgTckLM_MgCa_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgTKckLM_O18
 
-#GISSgTKckLM_O18_PPmarSed
+data<-GISSgTKckLM_O18_PPmarSed
+s<-seq(1,1100)
 
-data<-GISSgTKckLM_O18_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgTKckLM_O18_PPsmooth<-matrix(data = NA, 40, 1100)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,44000)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgTKckLM_O18_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgTKckLM_O18_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgTKckLM_O18_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgTKckLM_MgCa
 
-#GISSgTKckLM_MgCa_PPmarSed
+data<-GISSgTKckLM_MgCa_PPmarSed
+s<-seq(1,1100)
 
-data<-GISSgTKckLM_MgCa_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgTKckLM_MgCa_PPsmooth<-matrix(data = NA, 28, 1100)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,30800)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgTKckLM_MgCa_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgTKckLM_MgCa_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgTKckLM_MgCa_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgTcsLM_O18
 
-#GISSgTcsLM_O18_PPmarSed
+data<-GISSgTcsLM_O18_PPmarSed
+s<-seq(1,999)
 
-data<-GISSgTcsLM_O18_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgTcsLM_O18_PPsmooth<-matrix(data = NA, 40, 999)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,39960)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgTcsLM_O18_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgTcsLM_O18_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgTcsLM_O18_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
+#GISSgTcsLM_MgCa
 
-#GISSgTcsLM_MgCa_PPmarSed
+data<-GISSgTcsLM_MgCa_PPmarSed
+s<-seq(1,999)
 
-data<-GISSgTcsLM_MgCa_PPmarSed    #pseudoproxy timeseries to be smoothed
+GISSgTcsLM_MgCa_PPsmooth<-matrix(data = NA, 28, 999)
 
-vectorData<-as.vector(t(data))     #to make matrix into vector
-
-s<-seq(1,27972)
-sampleRes<-10.85/100
-winLength<- round(1/sampleRes)
-weight<-hamming(winLength)
-
-begin<-seq(1,length(vectorData)-(length(weight)+1))
-end<-seq(length(weight),length(vectorData))
-GISSgTcsLM_MgCa_PPsmooth<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
-
-for (i in 1:length(begin)) {
-  temp<-vectorData[begin[i]:end[i]]
-  GISSgTcsLM_MgCa_PPsmooth[i]<-sum(temp*weight)/sum(weight)
+for(i in 1:nrow(data)) {
+  sampleRes<-(resIndex[i])/100
+  winLength<- round(1/sampleRes)
+  
+  if (winLength %% 2 == 0) {
+    winLength<-winLength+1
+  }
+  
+  weight<-hamming(winLength)
+  
+  begin<-seq(1,ncol(data)-(length(weight)+1))
+  end<-seq(length(weight),ncol(data))
+  shift<-seq((length(weight)+1)/2,length(s) - (length(weight)-1)/2)
+  
+  for (j in 1:length(begin)) {
+    temp<-data[i,begin[j]:end[j]]
+    avg<-sum(temp*weight)/sum(weight)
+    GISSgTcsLM_MgCa_PPsmooth[i,shift[j]]<-avg
+  }
 }
 
 #plot
@@ -328,8 +416,20 @@ x<-GISSgTKckLM_MgCa_PPsmooth
 x<-GISSgTcsLM_O18_PPsmooth
 x<-GISSgTcsLM_MgCa_PPsmooth
 
-plot(s,vectorData, type = "l")
+plot(s,GISSgTcsLM_MgCa_PPmarSed[1,], type = "l")
 #title(main = "GISSgCpiC_O18 pseudoproxy - smooth")
-lines(s[((length(weight)+1)/2):(length(s)-(length(weight)-1)/2)],x,col="red")
+lines(GISSgTcsLM_MgCa_PPsmooth[1,],col="red")
 
-#use model_XX_PPmarSed for vectorData
+#save
+write.csv(HadpiC_O18_PPsmooth, file = "HadpiC_O18_PPsmooth.csv", row.names = FALSE)
+write.csv(HadpiC_MgCa_PPsmooth, file = "HadpiC_MgCa_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgCpiC_O18_PPsmooth, file = "GISSgCpiC_O18_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgCpiC_MgCa_PPsmooth, file = "GISSgCpiC_MgCa_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgy3piC_O18_PPsmooth, file = "GISSgy3piC_O18_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgy3piC_MgCa_PPsmooth, file = "GISSgy3piC_MgCa_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgTckLM_O18_PPsmooth, file = "GISSgTckLM_O18_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgTckLM_MgCa_PPsmooth, file = "GISSgTckLM_MgCa_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgTKckLM_O18_PPsmooth, file = "GISSgTKckLM_O18_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgTKckLM_MgCa_PPsmooth, file = "GISSgTKckLM_MgCa_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgTcsLM_O18_PPsmooth, file = "GISSgTcsLM_O18_PPsmooth.csv", row.names = FALSE)
+write.csv(GISSgTcsLM_MgCa_PPsmooth, file = "GISSgTcsLM_MgCa_PPsmooth.csv", row.names = FALSE)
