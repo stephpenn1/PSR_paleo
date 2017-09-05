@@ -1,11 +1,12 @@
 #Stephanie Pennington | PSR summer research
 #Pseudoproxy timeseries smoothing
 #apply weighed moving average with hanning filter
+#Needs metadata from Proxybin_anomIND script
 #Created 7-6-17
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/PPs");
-
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/noise")
 library(signal)
+
 #pull out only marine sediment archive type ------------------------------
 
 sedIndex_O18<- which(metadataO18$archiveType == "marine sediment" | metadataO18$archiveType == "marine sediments")
@@ -37,7 +38,7 @@ GISSgTcsLM_O18_PPmarSed<-GISSgTcsLM_O18_PP[sedIndex_O18,]
 
 #*note: O18 now has 40 rows and MgCa has 31 rows*
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
 
 #save as CSV for smoothing
 write.csv(HadpiC_O18_PPmarSed, file = "HadpiC_O18_PPmarSed.csv", row.names = FALSE)
@@ -402,7 +403,7 @@ for(i in 1:nrow(data)) {
 }
 
 #save
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
 write.csv(HadpiC_O18_PPsmooth, file = "HadpiC_O18_PPsmooth.csv", row.names = FALSE)
 write.csv(HadpiC_MgCa_PPsmooth, file = "HadpiC_MgCa_PPsmooth.csv", row.names = FALSE)
 write.csv(GISSgCpiC_O18_PPsmooth, file = "GISSgCpiC_O18_PPsmooth.csv", row.names = FALSE)

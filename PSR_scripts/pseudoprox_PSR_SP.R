@@ -2,7 +2,7 @@
 #Pseudoproxy construction
 #Created 6-16-17
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/model_annualdata/");
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/model_data/");
 
 library(RColorBrewer)
 library(hexbin)
@@ -13,12 +13,13 @@ set.seed(54)
 #target SNR
 SNR<-0.5
 
+#note: variance calculation works with matrix not data frame
 for (i in 1:nrow(HadpiC_O18)) {
-  R<-nrow(HadpiC_O18)
-  C<-ncol(HadpiC_O18)
-  varNreq<-matrix(var(HadpiC_O18[i,])/(SNR^2),R,C)  #find variance of noise needed to reach target SNR
-  N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)  #create matrix of noise to match model dims
-  SNRcheck<-matrix(sqrt(var(HadpiC_O18[i,])/var(N[i,])),R,C)  #verify SNR value
+    R<-nrow(HadpiC_O18)
+    C<-ncol(HadpiC_O18)
+    varNreq<-matrix(var(HadpiC_O18[i,])/(SNR^2),R,C)  #find variance of noise needed to reach target SNR
+    N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)  #create matrix of noise to match model dims
+    SNRcheck<-matrix(sqrt(var(HadpiC_O18[i,])/var(N[i,])),R,C)  #verify SNR value
 }
 HadpiC_O18_PP<-HadpiC_O18+N  #add noise to model data
 
@@ -139,7 +140,7 @@ for (i in 1:nrow(GISSgTcsLM_MgCa)) {
 GISSgTcsLM_MgCa_PP<-GISSgTcsLM_MgCa + N
 
 #save as CSV
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/PPs/")
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/noise/")
 write.csv(HadpiC_O18_PP, file = "HadpiC_O18_PP.csv", row.names = FALSE)
 write.csv(HadpiC_MgCa_PP, file = "HadpiC_MgCa_PP.csv", row.names = FALSE)
 write.csv(GISSgCpiC_O18_PP, file = "GISSgCpiC_O18_PP.csv", row.names = FALSE)

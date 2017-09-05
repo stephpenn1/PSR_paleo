@@ -1,29 +1,12 @@
-#Stephanie Pennington | PSR summer research
-#Pseudoproxy binning according to sample resolution
-#Created 7-18-17
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/");
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
-
-sampleRes_O18<-metadataO18[,4]
-sampleRes_MgCa<-resIndex_MgCa
-
-HadpiC_O18_PPagg<-read.csv("HadpiC_O18_PPagg.csv")
-GISSgCpiC_O18_PPagg<-read.csv("GISSgCpiC_O18_PPagg.csv")
-GISSgy3piC_O18_PPagg<-read.csv("GISSgy3piC_O18_PPagg.csv")
-GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
-GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
-GISSgTcsLM_O18_PPagg<-read.csv("GISSgTcsLM_O18_PPagg.csv")
-HadpiC_MgCa_PPagg<-read.csv("HadpiC_MgCa_PPagg.csv")
-GISSgCpiC_MgCa_PPagg<-read.csv("GISSgCpiC_MgCa_PPagg.csv")
-GISSgy3piC_MgCa_PPagg<-read.csv("GISSgy3piC_MgCa_PPagg.csv")
-GISSgTckLM_MgCa_PPagg<-read.csv("GISSgTckLM_MgCa_PPagg.csv")
-GISSgTKckLM_MgCa_PPagg<-read.csv("GISSgTKckLM_MgCa_PPagg.csv")
-GISSgTcsLM_MgCa_PPagg<-read.csv("GISSgTcsLM_MgCa_PPagg.csv")
-
-data<-HadpiC_O18_PPagg.csv
+data<-read.csv("HadpiC_O18_PPagg.csv")
+#data<-HadpiC_MgCa_PPsmooth
 time<-seq(1,ncol(data))
 data.avg<-data.frame(matrix(data = NA, nrow(data),ncol(data))) #create empty matrix for time and dO18 data
 data.time<-data.frame(matrix(data = NA, nrow(data),ncol(data)))
+sampleRes<-metadataO18[,4]
+#sampleRes<-resIndex_MgCa
 proxy.bounds<-matrix(data = NA,44,2) #create matrix with min and max of proxy data time
 colnames(proxy.bounds)<-c("min", "max")
 
@@ -41,7 +24,7 @@ for (i in 1:nrow(data)) {
   }
   
   binTotal<-ceiling(ncol(data) * s)
-  
+
   binAsize<-floor(ncol(data)/binTotal)  
   binAlength<-binTotal - (ncol(data) %% binAsize)
   binBsize<-binAsize + 1

@@ -6,7 +6,7 @@
 library(miscTools)
 
 #read in pseudoproxy timeseries with data
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/PPs")
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/noise")
 HadpiC_O18_PP<-read.csv("HadpiC_O18_pp.csv")
 GISSgCpiC_O18_PP<-read.csv("GISSgCpiC_O18_pp.csv")
 GISSgy3piC_O18_PP<-read.csv("GISSgy3piC_O18_pp.csv")
@@ -102,7 +102,7 @@ for (i in 1:length(otherIndex)) {
 GISSgTcsLM_O18_PPagg<-data
 
 #save aggreagate timeseries for binning
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 write.csv(HadpiC_O18_PPagg, file = "HadpiC_O18_PPagg.csv", row.names = FALSE)
 write.csv(GISSgCpiC_O18_PPagg, file = "GISSgCpiC_O18_PPagg.csv", row.names = FALSE)
 write.csv(GISSgy3piC_O18_PPagg, file = "GISSgy3piC_O18_PPagg.csv", row.names = FALSE)

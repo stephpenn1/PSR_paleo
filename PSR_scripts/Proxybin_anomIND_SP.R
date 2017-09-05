@@ -13,9 +13,9 @@ library(maps);library(mapproj); library(mapdata);
 wl<-50;																	#window length (in years) for binning
 dt<-25;																		#timestep (in years) for binning
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/");
-SSTproxy<-read.csv("/home/spenn1/PSR_paleo/PSR_data/proxy_data/SSTProxyDat.csv", header=T);
-O18proxy<-read.csv("/home/spenn1/PSR_paleo/PSR_data/proxy_data/O18ProxyDat.csv", header=T);
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/proxydata/");
+SSTproxy<-read.csv("/Users/SP/Desktop/PSR_paleo/PSR_data/proxy_data/SSTProxyDat.csv", header=T);
+O18proxy<-read.csv("/Users/SP/Desktop/PSR_paleo/PSR_data/proxy_data/O18ProxyDat.csv", header=T);
 
 metadataSST<-SSTproxy[which(is.na(SSTproxy$SampleRes)==FALSE),]				#make a matrix of just metadata
 metadataSST<-droplevels(metadataSST)

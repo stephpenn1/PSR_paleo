@@ -1,4 +1,4 @@
-setwd("/home/spenn1/PSR_paleo/PSR_data/model_data/")
+setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/model_data/")
 
 write.csv(HadpiC_O18, file = "HadpiC_O18.csv", row.names = FALSE)
 write.csv(HadpiC_MgCa, file = "HadpiC_MgCa.csv", row.names = FALSE)
