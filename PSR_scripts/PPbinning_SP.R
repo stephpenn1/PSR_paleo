@@ -2,10 +2,10 @@
 #Pseudoproxy binning according to sample resolution
 #Created 7-18-17
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
-
 sampleRes_O18<-metadataO18[,4]
-sampleRes_MgCa<-resIndex_MgCa
+sampleRes_MgCa<-MgCa[,5]
+
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 
 HadpiC_O18_PPagg<-read.csv("HadpiC_O18_PPagg.csv")
 GISSgCpiC_O18_PPagg<-read.csv("GISSgCpiC_O18_PPagg.csv")
@@ -13,14 +13,18 @@ GISSgy3piC_O18_PPagg<-read.csv("GISSgy3piC_O18_PPagg.csv")
 GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
 GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
 GISSgTcsLM_O18_PPagg<-read.csv("GISSgTcsLM_O18_PPagg.csv")
-HadpiC_MgCa_PPagg<-read.csv("HadpiC_MgCa_PPagg.csv")
-GISSgCpiC_MgCa_PPagg<-read.csv("GISSgCpiC_MgCa_PPagg.csv")
-GISSgy3piC_MgCa_PPagg<-read.csv("GISSgy3piC_MgCa_PPagg.csv")
-GISSgTckLM_MgCa_PPagg<-read.csv("GISSgTckLM_MgCa_PPagg.csv")
-GISSgTKckLM_MgCa_PPagg<-read.csv("GISSgTKckLM_MgCa_PPagg.csv")
-GISSgTcsLM_MgCa_PPagg<-read.csv("GISSgTcsLM_MgCa_PPagg.csv")
 
-data<-HadpiC_O18_PPagg.csv
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+HadpiC_MgCa_PPagg<-read.csv("HadpiC_MgCa_PPsmooth.csv")
+GISSgCpiC_MgCa_PPagg<-read.csv("GISSgCpiC_MgCa_PPsmooth.csv")
+GISSgy3piC_MgCa_PPagg<-read.csv("GISSgy3piC_MgCa_PPsmooth.csv")
+GISSgTckLM_MgCa_PPagg<-read.csv("GISSgTckLM_MgCa_PPsmooth.csv")
+GISSgTKckLM_MgCa_PPagg<-read.csv("GISSgTKckLM_MgCa_PPsmooth.csv")
+GISSgTcsLM_MgCa_PPagg<-read.csv("GISSgTcsLM_MgCa_PPsmooth.csv")
+
+
+
+data<-HadpiC_O18_PPagg
 time<-seq(1,ncol(data))
 data.avg<-data.frame(matrix(data = NA, nrow(data),ncol(data))) #create empty matrix for time and dO18 data
 data.time<-data.frame(matrix(data = NA, nrow(data),ncol(data)))
@@ -34,29 +38,35 @@ for (i in 1:max(O18proxy$index)) {
 }
 
 for (i in 1:nrow(data)) {
-  if (sampleRes[i] > 100) {
-    sampleRes[i] <- 100
+  if (sampleRes_O18[i] > 100) {
+    sampleRes_O18[i] <- 100
   } else {
-    s<-sampleRes[i]/100    
+    s<-sampleRes_O18[i]/100    
   }
   
   binTotal<-ceiling(ncol(data) * s)
   
-  binAsize<-floor(ncol(data)/binTotal)  
-  binAlength<-binTotal - (ncol(data) %% binAsize)
-  binBsize<-binAsize + 1
-  binBlength<-ncol(data) %% binAsize
+  binAtotal<-floor(ncol(data)/binTotal)  
+  binAlength<-binTotal - (ncol(data) %% binAtotal)
+  binBtotal<-binAtotal + 1
+  binBlength<-ncol(data) %% binAtotal
   
-  binA<-rep(binAsize,binAlength)
-  binB<-rep(binBsize,binBlength)
+  binA<-rep(binAtotal,binAlength)
+  binB<-rep(binBtotal,binBlength)
   binWidth<-sample(c(binA,binB))
   
   binEnd<-cumsum(binWidth)
   binStart<-(binEnd-binWidth)+1
   
+  ##NEED to fiure out how to average sample size of 100##
   for (j in 1:length(binWidth)) {
+    #if (sampleRes_O18[i] == 100){
+    #  data.avg[i,j]<-sum(data[i,], na.rm = TRUE)/ncol(data)
+    #  data.time[i,j]<-sum(time[j], na.rm = TRUE)/ncol(data)
+    #} else {
     data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
     data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
+    #}
     #if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2]) {
     #  data.time[i,j]<-NA
     #  data.avg[i,j]<-NA
