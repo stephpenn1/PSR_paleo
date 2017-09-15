@@ -4,7 +4,7 @@
 #Needs metadata from Proxybin_anomIND script
 #Created 7-6-17
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/noise")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/noise")
 library(signal)
 
 #pull out only marine sediment archive type ------------------------------
@@ -36,9 +36,8 @@ GISSgTckLM_O18_PPmarSed<-GISSgTckLM_O18_PP[sedIndex_O18,]
 GISSgTKckLM_O18_PPmarSed<-GISSgTKckLM_O18_PP[sedIndex_O18,]
 GISSgTcsLM_O18_PPmarSed<-GISSgTcsLM_O18_PP[sedIndex_O18,]
 
-#*note: O18 now has 40 rows and MgCa has 31 rows*
-
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
+#*note: O18 now has 40 rows*
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
 
 #save as CSV for smoothing
 write.csv(HadpiC_O18_PPmarSed, file = "HadpiC_O18_PPmarSed.csv", row.names = FALSE)
@@ -47,30 +46,24 @@ write.csv(GISSgy3piC_O18_PPmarSed, file = "GISSgy3piC_O18_PPmarSed.csv", row.nam
 write.csv(GISSgTckLM_O18_PPmarSed, file = "GISSgTckLM_O18_PPmarSed.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPmarSed, file = "GISSgTKckLM_O18_PPmarSed.csv", row.names = FALSE)
 write.csv(GISSgTcsLM_O18_PPmarSed, file = "GISSgTcsLM_O18_PPmarSed.csv", row.names = FALSE)
-write.csv(HadpiC_MgCa_PP, file = "HadpiC_MgCa_PPmarSed.csv", row.names = FALSE)
-write.csv(GISSgCpiC_MgCa_PP, file = "GISSgCpiC_MgCa_PPmarSed.csv", row.names = FALSE)
-write.csv(GISSgy3piC_MgCa_PP, file = "GISSgy3piC_MgCa_PPmarSed.csv", row.names = FALSE)
-write.csv(GISSgTckLM_MgCa_PP, file = "GISSgTckLM_MgCa_PPmarSed.csv", row.names = FALSE)
-write.csv(GISSgTKckLM_MgCa_PP, file = "GISSgTKckLM_MgCa_PPmarSed.csv", row.names = FALSE)
-write.csv(GISSgTcsLM_MgCa_PP, file = "GISSgTcsLM_MgCa_PPmarSed.csv", row.names = FALSE)
 
 # calculate weighted moving average ---------------------------------------
-
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
 HadpiC_O18_PPmarSed<-read.csv("HadpiC_O18_PPmarSed.csv")
 GISSgCpiC_O18_PPmarSed<-read.csv("GISSgCpiC_O18_PPmarSed.csv")
 GISSgy3piC_O18_PPmarSed<-read.csv("GISSgy3piC_O18_PPmarSed.csv")
 GISSgTckLM_O18_PPmarSed<-read.csv("GISSgTckLM_O18_PPmarSed.csv")
 GISSgTKckLM_O18_PPmarSed<-read.csv("GISSgTKckLM_O18_PPmarSed.csv")
 GISSgTcsLM_O18_PPmarSed<-read.csv("GISSgTcsLM_O18_PPmarSed.csv")
-HadpiC_MgCa_PPmarSed<-read.csv("HadpiC_MgCa_PPmarSed.csv")
-GISSgCpiC_MgCa_PPmarSed<-read.csv("GISSgCpiC_MgCa_PPmarSed.csv")
-GISSgy3piC_MgCa_PPmarSed<-read.csv("GISSgy3piC_MgCa_PPmarSed.csv")
-GISSgTckLM_MgCa_PPmarSed<-read.csv("GISSgTckLM_MgCa_PPmarSed.csv")
-GISSgTKckLM_MgCa_PPmarSed<-read.csv("GISSgTKckLM_MgCa_PPmarSed.csv")
-GISSgTcsLM_MgCa_PPmarSed<-read.csv("GISSgTcsLM_MgCa_PPmarSed.csv")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/noise");
+HadpiC_MgCa_PP<-read.csv("HadpiC_MgCa_PP.csv")
+GISSgCpiC_MgCa_PP<-read.csv("GISSgCpiC_MgCa_PP.csv")
+GISSgy3piC_MgCa_PP<-read.csv("GISSgy3piC_MgCa_PP.csv")
+GISSgTckLM_MgCa_PP<-read.csv("GISSgTckLM_MgCa_PP.csv")
+GISSgTKckLM_MgCa_PP<-read.csv("GISSgTKckLM_MgCa_PP.csv")
+GISSgTcsLM_MgCa_PP<-read.csv("GISSgTcsLM_MgCa_PP.csv")
 
 #HadpiC_O18
-
 data<-HadpiC_O18_PPmarSed
 s<-seq(1,ncol(data))            # set length of data
 
@@ -97,7 +90,6 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgCpiC_O18
-
 data<-GISSgCpiC_O18_PPmarSed
 s<-seq(1,ncol(data))
 
@@ -124,7 +116,6 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgy3piC_O18
-
 data<-GISSgy3piC_O18_PPmarSed
 s<-seq(1,ncol(data))
 
@@ -151,7 +142,6 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgTckLM_O18
-
 data<-GISSgTckLM_O18_PPmarSed
 s<-seq(1,ncol(data))
 
@@ -179,7 +169,6 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgTKckLM_O18
-
 data<-GISSgTKckLM_O18_PPmarSed
 s<-seq(1,ncol(data))
 
@@ -207,7 +196,6 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgTcsLM_O18
-
 data<-GISSgTcsLM_O18_PPmarSed
 s<-seq(1,ncol(data))
 
@@ -235,8 +223,7 @@ for(i in 1:nrow(data)) {
 }
 
 #HadpiC_MgCa
-
-data<-HadpiC_MgCa_PPmarSed
+data<-HadpiC_MgCa_PP
 s<-seq(1,ncol(data))
 
 HadpiC_MgCa_PPsmooth<-matrix(data = NA, nrow(data), ncol(data))
@@ -263,9 +250,8 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgCpiC_MgCa
-
-data<-GISSgCpiC_MgCa_PPmarSed
-s<-seq(1,1100)
+data<-GISSgCpiC_MgCa_PP
+s<-seq(1,ncol(data))
 
 GISSgCpiC_MgCa_PPsmooth<-matrix(data = NA, nrow(data), ncol(data))
 
@@ -291,9 +277,8 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgy3piC_MgCa
-
-data<-GISSgy3piC_MgCa_PPmarSed
-s<-seq(1,160)
+data<-GISSgy3piC_MgCa_PP
+s<-seq(1,ncol(data))
 
 GISSgy3piC_MgCa_PPsmooth<-matrix(data = NA, nrow(data), ncol(data))
 
@@ -319,9 +304,8 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgTckLM_MgCa
-
-data<-GISSgTckLM_MgCa_PPmarSed
-s<-seq(1,1100)
+data<-GISSgTckLM_MgCa_PP
+s<-seq(1,ncol(data))
 
 GISSgTckLM_MgCa_PPsmooth<-matrix(data = NA, nrow(data), ncol(data))
 
@@ -347,9 +331,8 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgTKckLM_MgCa
-
-data<-GISSgTKckLM_MgCa_PPmarSed
-s<-seq(1,1100)
+data<-GISSgTKckLM_MgCa_PP
+s<-seq(1,ncol(data))
 
 GISSgTKckLM_MgCa_PPsmooth<-matrix(data = NA, nrow(data), ncol(data))
 
@@ -375,9 +358,8 @@ for(i in 1:nrow(data)) {
 }
 
 #GISSgTcsLM_MgCa
-
-data<-GISSgTcsLM_MgCa_PPmarSed
-s<-seq(1,999)
+data<-GISSgTcsLM_MgCa_PP
+s<-seq(1,ncol(data))
 
 GISSgTcsLM_MgCa_PPsmooth<-matrix(data = NA, nrow(data), ncol(data))
 
@@ -403,7 +385,7 @@ for(i in 1:nrow(data)) {
 }
 
 #save
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth/")
 write.csv(HadpiC_O18_PPsmooth, file = "HadpiC_O18_PPsmooth.csv", row.names = FALSE)
 write.csv(HadpiC_MgCa_PPsmooth, file = "HadpiC_MgCa_PPsmooth.csv", row.names = FALSE)
 write.csv(GISSgCpiC_O18_PPsmooth, file = "GISSgCpiC_O18_PPsmooth.csv", row.names = FALSE)
@@ -419,18 +401,6 @@ write.csv(GISSgTcsLM_MgCa_PPsmooth, file = "GISSgTcsLM_MgCa_PPsmooth.csv", row.n
 
 #plot
 x<-HadpiC_O18_PPsmooth
-x<-HadpiC_MgCa_PPsmooth
-x<-GISSgCpiC_O18_PPsmooth
-x<-GISSgCpiC_MgCa_PPsmooth
-x<-GISSgy3piC_O18_PPsmooth
-x<-GISSgy3piC_MgCa_PPsmooth
-x<-GISSgTckLM_O18_PPsmooth
-x<-GISSgTckLM_MgCa_PPsmooth
-x<-GISSgTKckLM_O18_PPsmooth
-x<-GISSgTKckLM_MgCa_PPsmooth
-x<-GISSgTcsLM_O18_PPsmooth
-x<-GISSgTcsLM_MgCa_PPsmooth
-
-plot(s,GISSgTcsLM_MgCa_PPmarSed[1,], type = "l")
+plot(s,HadpiC_O18_PPmarSed[40,], type = "l")
 #title(main = "GISSgCpiC_O18 pseudoproxy - smooth")
-lines(GISSgTcsLM_MgCa_PPsmooth[1,],col="red")
+lines(HadpiC_O18_PPsmooth[40,],col="red")

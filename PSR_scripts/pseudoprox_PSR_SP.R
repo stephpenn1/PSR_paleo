@@ -2,7 +2,7 @@
 #Pseudoproxy construction
 #Created 6-16-17
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/model_data/");
+setwd("/home/spenn1/PSR_paleo/PSR_data/model_data/");
 
 library(RColorBrewer)
 library(hexbin)
@@ -140,7 +140,7 @@ for (i in 1:nrow(GISSgTcsLM_MgCa)) {
 GISSgTcsLM_MgCa_PP<-GISSgTcsLM_MgCa + N
 
 #save as CSV
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/noise/")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/noise/")
 write.csv(HadpiC_O18_PP, file = "HadpiC_O18_PP.csv", row.names = FALSE)
 write.csv(HadpiC_MgCa_PP, file = "HadpiC_MgCa_PP.csv", row.names = FALSE)
 write.csv(GISSgCpiC_O18_PP, file = "GISSgCpiC_O18_PP.csv", row.names = FALSE)
