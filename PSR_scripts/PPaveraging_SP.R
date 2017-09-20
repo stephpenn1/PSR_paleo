@@ -39,7 +39,7 @@ average_MgCa<-function(data) {
     s<-sampleRes_MgCa[i]/100
     binTotal<-ceiling(ncol(data) * s)
   
-    binAsize<-floor(ncol(data)/binTotal)    
+    binAsize<-floor(ncol(data)/binTotal) #determine bin quantity and sizes 
     nbinA<-binTotal - (ncol(data) %% binAsize)
     binBsize<-binAsize + 1
     nbinB<-ncol(data) %% binAsize
@@ -48,8 +48,8 @@ average_MgCa<-function(data) {
     binB<-rep(binBsize,nbinB)
     binWidth<-sample(c(binA,binB))
     
-    binEnd<-cumsum(binWidth)
-    binStart<-(binEnd-binWidth)+1
+    binEnd<-cumsum(binWidth) #bin start location
+    binStart<-(binEnd-binWidth)+1 #bin end location
       
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
@@ -57,7 +57,7 @@ average_MgCa<-function(data) {
     }
   }
   
-  index<-matrix(data = NA,nrow(data),ncol(data))  #create index corresponding to each bin size
+  index<-matrix(data = NA,nrow(data),ncol(data)) #create index corresponding to each bin size without NAs
   for (i in 1:nrow(data)) {
     for (j in 1:ncol(data)) {
       if (is.na(data.avg[i,j]) == FALSE) {
@@ -66,7 +66,7 @@ average_MgCa<-function(data) {
     }
   }
   
-  #transpose matrix to vector
+  #transpose matrix to vector to create data frame
   PPavg<-na.omit(as.vector(t(data.avg)))
   PPtime<-na.omit(as.vector(t(data.time)))
   PPindex<-na.omit(as.vector(t(index)))
@@ -74,10 +74,10 @@ average_MgCa<-function(data) {
   index<-PPindex  #create data frame
   year<-PPtime
   Tproxy.val<-signif(PPavg, digits = 2)
-  test<<-cbind(index,year,Tproxy.val)
-  colnames(test)<- c("index", "year", "Tproxy.val")
-  write.csv(test, file = "test.csv", row.names = FALSE)
-  return(test)
+  avg<<-cbind(index,year,Tproxy.val)
+  colnames(avg)<- c("index", "year", "Tproxy.val")
+#  write.csv(avg, file = "avg.csv", row.names = FALSE)
+  return(avg)
 }
 
 average_O18<-function(data) {
@@ -93,7 +93,7 @@ average_O18<-function(data) {
     proxy.bounds[i,2]<-max(O18proxy$year[x])
   }
   
-  for (i in 1:nrow(data)) {
+  for (i in 1:nrow(data)) {     #
     s<-sampleRes_O18[i]/100
     binTotal<-ceiling(ncol(data) * s)
     
@@ -132,37 +132,37 @@ average_O18<-function(data) {
   index<-PPindex  #create data frame
   year<-PPtime
   dO18<-signif(PPavg, digits = 2)
-  test<<-cbind(index,year,dO18)
-  colnames(test)<- c("index", "year", "dO18")
-  write.csv(test, file = "test.csv", row.names = FALSE)
-  return(test)
+  avg<<-cbind(index,year,dO18)
+  colnames(avg)<- c("index", "year", "dO18")
+  write.csv(avg, file = "avg.csv", row.names = FALSE)
+  return(avg)
 }
 
-average_MgCa(HadpiC_MgCa_PPsmooth)     #run function 
-HadpiC_MgCa_PPavg<-test     #rename output file as model simulation
+average_MgCa(HadpiC_MgCa_PPsmooth) #run function 
+HadpiC_MgCa_PPavg<-avg #rename output file as model simulation
 average_MgCa(GISSgCpiC_MgCa_PPsmooth)
-GISSgCpiC_MgCa_PPavg<-test
+GISSgCpiC_MgCa_PPavg<-avg
 average_MgCa(GISSgy3piC_MgCa_PPsmooth)
-GISSgy3piC_MgCa_PPavg<-test
+GISSgy3piC_MgCa_PPavg<-avg
 average_MgCa(GISSgTckLM_MgCa_PPsmooth)
-GISSgTckLM_MgCa_PPavg<-test
+GISSgTckLM_MgCa_PPavg<-avg
 average_MgCa(GISSgTKckLM_MgCa_PPsmooth)
-GISSgTKckLM_MgCa_PPavg<-test
+GISSgTKckLM_MgCa_PPavg<-avg
 average_MgCa(GISSgTcsLM_MgCa_PPsmooth)
-GISSgTcsLM_MgCa_PPavg<-test
+GISSgTcsLM_MgCa_PPavg<-avg
 
 average_O18(HadpiC_O18_PPagg)
-HadpiC_O18_PPavg<-test
+HadpiC_O18_PPavg<-avg
 average_O18(GISSgCpiC_O18_PPagg)
-GISSgCpiC_O18_PPavg<-test
+GISSgCpiC_O18_PPavg<-avg
 average_O18(GISSgy3piC_O18_PPagg)
-GISSgy3piC_O18_PPavg<-test
+GISSgy3piC_O18_PPavg<-avg
 average_O18(GISSgTckLM_O18_PPagg)
-GISSgTckLM_O18_PPavg<-test
+GISSgTckLM_O18_PPavg<-avg
 average_O18(GISSgTKckLM_O18_PPagg)
-GISSgTKckLM_O18_PPavg<-test
+GISSgTKckLM_O18_PPavg<-avg
 average_O18(GISSgTcsLM_O18_PPagg)
-GISSgTcsLM_O18_PPavg<-test
+GISSgTcsLM_O18_PPavg<-avg
 
 #save files
 setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/average/")
