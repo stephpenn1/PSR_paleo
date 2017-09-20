@@ -1,0 +1,52 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\froman\fcharset0 Times-Roman;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;}
+\margl1134\margr1134\margb1134\margt1134\vieww10800\viewh8400\viewkind0
+\deftab709
+\pard\pardeftab709\partightenfactor0
+
+\f0\fs24 \cf0 This read me file describes the scripts and work flow for generating pseudoproxy Mg/Ca and O18 data. The files below are listed in order of work flow and should be executed as follows. (need to add something about purpose of pseudoproxy data creation)
+\f1 \
+
+\f0 \
+sim_PSMbin_SP.R \'96 annual temperature, salt, and H2O18 data forward models calcite d18O and Mg/Ca. For pseudo proxy construction, only lines 1-210 are needed, this will generate data with the form XX_YY, 
+\f2 where XX is either piC or LM, YY is O18, MgCa, AMOC, NAM or NAO
+\f0 . Output with O18 or MgCa will be used to create the pseudoproxy data.
+\f1 \
+\pard\pardeftab709\partightenfactor0
+
+\f0\b \cf0 \
+\pard\pardeftab709\partightenfactor0
+
+\b0 \cf0 Proxybin_anomIND_SP.R \'96 pulls out metadata for O18 and Mg/Ca needed for binning and smoothing; only lines 1-31 need to be executed
+\f1 \
+\pard\pardeftab709\partightenfactor0
+
+\f0\b \cf0 \
+\pard\pardeftab709\partightenfactor0
+
+\b0 \cf0 pseudoprox_PSR_SP.R \'96 this file generates pseudoproxies from the model data created in sim_PSMbin_SP.R. Noise is created with a signal-to-noise ratio of 0.5 and added to the model data. Output data is in the form of XX_YY_PP. Resulting pseudo proxy data should be 1-to-1 with the original model data.
+\f1 \
+\pard\pardeftab709\partightenfactor0
+
+\f0\b \cf0 \
+\pard\pardeftab709\partightenfactor0
+
+\b0 \cf0 PPsmoothing_SP.R \'96 marine sediment rows (sites) in each model are smoothed using a weighted moving average and guassian filter to represent bioturbation. The length of the window in each site is chosen based on the real proxy data sample resolution of the corresponding row. Non-marine sediment rows are pulled out prior to smoothing and added back after (but before binning). Output data is in the form of XX_YY_PPsmooth. Note: sample resolutions close to 1 sample/year are indicative of annual resolution and subsequently ignored as they already represent bioturbation.
+\f1 \
+\pard\pardeftab709\partightenfactor0
+
+\f0\b \cf0 \
+\pard\pardeftab709\partightenfactor0
+
+\b0 \cf0 PPaggregate_SP.R \'96 this script adds non marine sediment rows back into the pseudoproxies into their respective rows. Output data is in the form of XX_YY_PPagg.
+\f1 \
+\pard\pardeftab709\partightenfactor0
+
+\f0\b \cf0 \
+\pard\pardeftab709\partightenfactor0
+
+\b0 \cf0 PPaveraging_SP.R \'96 smoothed pseudoproxy data is binned to mimic the frequency of the real proxy data. Bins were calculated based on the real proxy data sample resolutions for Mg/Ca and O18 data. Note: sample resolutions close to 1 sample/year are indicative of annual resolution and subsequently ignored as they already represent bioturbation.
+\f1 \
+}
