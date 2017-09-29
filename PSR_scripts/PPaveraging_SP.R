@@ -54,13 +54,17 @@ average_MgCa<-function(data) {
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
       data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
+      if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2]) { #truncate time
+        data.time[i,j]<-NA
+        data.avg[i,j]<-NA
+      }
     }
   }
   
   index<-matrix(data = NA,nrow(data),ncol(data)) #create index corresponding to each bin size without NAs
   for (i in 1:nrow(data)) {
     for (j in 1:ncol(data)) {
-      if (is.na(data.avg[i,j]) == FALSE) {
+      if (is.na(data.avg[i,j]) == FALSE) { #if number is not NA, add to final matrix
         index[i,j] = i
       } 
     }
@@ -112,6 +116,10 @@ average_O18<-function(data) {
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
       data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
+      if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2]) {
+        data.time[i,j]<-NA
+        data.avg[i,j]<-NA
+      }
     }
   }
   
