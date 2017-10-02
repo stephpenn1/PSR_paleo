@@ -3,17 +3,11 @@
 #Created 7-18-17
 
 setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
-HadpiC_O18_PPagg<-read.csv("HadpiC_O18_PPagg.csv")
-GISSgCpiC_O18_PPagg<-read.csv("GISSgCpiC_O18_PPagg.csv")
-GISSgy3piC_O18_PPagg<-read.csv("GISSgy3piC_O18_PPagg.csv")
 GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
 GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
 GISSgTcsLM_O18_PPagg<-read.csv("GISSgTcsLM_O18_PPagg.csv")
 
 setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
-HadpiC_MgCa_PPsmooth<-read.csv("HadpiC_MgCa_PPsmooth.csv")
-GISSgCpiC_MgCa_PPsmooth<-read.csv("GISSgCpiC_MgCa_PPsmooth.csv")
-GISSgy3piC_MgCa_PPsmooth<-read.csv("GISSgy3piC_MgCa_PPsmooth.csv")
 GISSgTckLM_MgCa_PPsmooth<-read.csv("GISSgTckLM_MgCa_PPsmooth.csv")
 GISSgTKckLM_MgCa_PPsmooth<-read.csv("GISSgTKckLM_MgCa_PPsmooth.csv")
 GISSgTcsLM_MgCa_PPsmooth<-read.csv("GISSgTcsLM_MgCa_PPsmooth.csv")
@@ -80,7 +74,6 @@ average_MgCa<-function(data) {
   Tproxy.val<-signif(PPavg, digits = 2)
   avg<<-cbind(index,year,Tproxy.val)
   colnames(avg)<- c("index", "year", "Tproxy.val")
-#  write.csv(avg, file = "avg.csv", row.names = FALSE)
   return(avg)
 }
 
@@ -142,29 +135,19 @@ average_O18<-function(data) {
   dO18<-signif(PPavg, digits = 2)
   avg<<-cbind(index,year,dO18)
   colnames(avg)<- c("index", "year", "dO18")
-  write.csv(avg, file = "avg.csv", row.names = FALSE)
   return(avg)
 }
 
-average_MgCa(HadpiC_MgCa_PPsmooth) #run function 
-HadpiC_MgCa_PPavg<-avg #rename output file as model simulation
-average_MgCa(GISSgCpiC_MgCa_PPsmooth)
-GISSgCpiC_MgCa_PPavg<-avg
-average_MgCa(GISSgy3piC_MgCa_PPsmooth)
-GISSgy3piC_MgCa_PPavg<-avg
-average_MgCa(GISSgTckLM_MgCa_PPsmooth)
-GISSgTckLM_MgCa_PPavg<-avg
+#run functions
+#MgCa
+average_MgCa(GISSgTckLM_MgCa_PPsmooth) 
+GISSgTckLM_MgCa_PPavg<-avg #rename output file as model simulation
 average_MgCa(GISSgTKckLM_MgCa_PPsmooth)
 GISSgTKckLM_MgCa_PPavg<-avg
 average_MgCa(GISSgTcsLM_MgCa_PPsmooth)
 GISSgTcsLM_MgCa_PPavg<-avg
 
-average_O18(HadpiC_O18_PPagg)
-HadpiC_O18_PPavg<-avg
-average_O18(GISSgCpiC_O18_PPagg)
-GISSgCpiC_O18_PPavg<-avg
-average_O18(GISSgy3piC_O18_PPagg)
-GISSgy3piC_O18_PPavg<-avg
+#O18
 average_O18(GISSgTckLM_O18_PPagg)
 GISSgTckLM_O18_PPavg<-avg
 average_O18(GISSgTKckLM_O18_PPagg)
@@ -174,12 +157,6 @@ GISSgTcsLM_O18_PPavg<-avg
 
 #save files
 setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/average/")
-write.csv(HadpiC_O18_PPavg, file = "HadpiC_O18_PPavg.csv", row.names = FALSE)
-write.csv(HadpiC_MgCa_PPavg, file = "HadpiC_MgCa_PPavg.csv", row.names = FALSE)
-write.csv(GISSgCpiC_O18_PPavg, file = "GISSgCpiC_O18_PPavg.csv", row.names = FALSE)
-write.csv(GISSgCpiC_MgCa_PPavg, file = "GISSgCpiC_MgCa_PPavg.csv", row.names = FALSE)
-write.csv(GISSgy3piC_O18_PPavg, file = "GISSgy3piC_O18_PPavg.csv", row.names = FALSE)
-write.csv(GISSgy3piC_MgCa_PPavg, file = "GISSgy3piC_MgCa_PPsmooth.csv", row.names = FALSE)
 write.csv(GISSgTckLM_O18_PPavg, file = "GISSgTckLM_O18_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTckLM_MgCa_PPavg, file = "GISSgTckLM_MgCa_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPavg, file = "GISSgTKckLM_O18_PPavg.csv", row.names = FALSE)
