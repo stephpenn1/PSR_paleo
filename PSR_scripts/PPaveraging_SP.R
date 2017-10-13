@@ -17,7 +17,7 @@ sampleRes_MgCa<-MgCa[,5]
 
 #functions to average MgCa and O18 data
 average_MgCa<-function(data) {
-  time<-seq(1,ncol(data))
+  time<-seq(850,ncol(data) + 850)
   data.avg<-data.frame(matrix(data = NA, nrow(data),ncol(data))) #create empty matrix for time and dO18 data
   data.time<-data.frame(matrix(data = NA, nrow(data),ncol(data)))
   proxy.bounds<-matrix(data = NA,nrow(data),2) #create matrix with min and max of proxy data time
@@ -30,11 +30,19 @@ average_MgCa<-function(data) {
   }
     
   for (i in 1:nrow(data)) {
+    if (sampleRes_MgCa[i] > 100) {
+      sampleRes_MgCa[i] <- 100
+    } else {
+      s<-sampleRes_MgCa[i]/100 
+    }
+  } 
+  
+  for (i in 1:nrow(data)) {
     s<-sampleRes_MgCa[i]/100
     binTotal<-ceiling(ncol(data) * s)
-  
-    binAsize<-floor(ncol(data)/binTotal) #determine bin quantity and sizes 
-    nbinA<-binTotal - (ncol(data) %% binAsize)
+    
+    binAsize<-floor(ncol(data)/binTotal) #determine number of data points in bin A  
+    nbinA<-binTotal - (ncol(data) %% binAsize) #determine quantity of first set of bins
     binBsize<-binAsize + 1
     nbinB<-ncol(data) %% binAsize
     
@@ -48,7 +56,7 @@ average_MgCa<-function(data) {
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
       data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
-      if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2]) { #truncate time
+      if(data.time[i,j] <= proxy.bounds[i,1] | data.time[i,j] >= proxy.bounds[i,2] | data.time[i,j] <= 850 | data.time[i,j] >= 1850) { #truncate time
         data.time[i,j]<-NA
         data.avg[i,j]<-NA
       }
@@ -70,7 +78,7 @@ average_MgCa<-function(data) {
   PPindex<-na.omit(as.vector(t(index)))
   
   index<-PPindex  #create data frame
-  year<-PPtime
+  year<-round(PPtime)
   Tproxy.val<-signif(PPavg, digits = 2)
   avg<<-cbind(index,year,Tproxy.val)
   colnames(avg)<- c("index", "year", "Tproxy.val")
@@ -78,7 +86,7 @@ average_MgCa<-function(data) {
 }
 
 average_O18<-function(data) {
-  time<-seq(1,ncol(data))
+  time<-seq(850,ncol(data) + 850)
   data.avg<-data.frame(matrix(data = NA, nrow(data),ncol(data))) #create empty matrix for time and dO18 data
   data.time<-data.frame(matrix(data = NA, nrow(data),ncol(data)))
   proxy.bounds<-matrix(data = NA,nrow(data),2) #create matrix with min and max of proxy data time
@@ -89,6 +97,14 @@ average_O18<-function(data) {
     proxy.bounds[i,1]<-min(O18proxy$year[x]) #find min and max for each site
     proxy.bounds[i,2]<-max(O18proxy$year[x])
   }
+  
+  for (i in 1:nrow(data)) {
+    if (sampleRes_O18[i] > 100) {
+      sampleRes_O18[i] <- 100
+    } else {
+      s<-sampleRes_O18[i]/100 
+    }
+  } 
   
   for (i in 1:nrow(data)) {     #
     s<-sampleRes_O18[i]/100
@@ -109,7 +125,7 @@ average_O18<-function(data) {
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
       data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
-      if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2]) {
+      if(data.time[i,j] <= proxy.bounds[i,1] | data.time[i,j] >= proxy.bounds[i,2] | data.time[i,j] <= 850 | data.time[i,j] >= 1850) {
         data.time[i,j]<-NA
         data.avg[i,j]<-NA
       }
@@ -131,7 +147,7 @@ average_O18<-function(data) {
   PPindex<-na.omit(as.vector(t(index)))
   
   index<-PPindex  #create data frame
-  year<-PPtime
+  year<-round(PPtime)
   dO18<-signif(PPavg, digits = 2)
   avg<<-cbind(index,year,dO18)
   colnames(avg)<- c("index", "year", "dO18")
