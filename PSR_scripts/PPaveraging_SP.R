@@ -2,12 +2,12 @@
 #Pseudoproxy averaging according to sample resolution
 #Created 7-18-17
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
 GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
 GISSgTcsLM_O18_PPagg<-read.csv("GISSgTcsLM_O18_PPagg.csv")
 
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth/")
 GISSgTckLM_MgCa_PPsmooth<-read.csv("GISSgTckLM_MgCa_PPsmooth.csv")
 GISSgTKckLM_MgCa_PPsmooth<-read.csv("GISSgTKckLM_MgCa_PPsmooth.csv")
 GISSgTcsLM_MgCa_PPsmooth<-read.csv("GISSgTcsLM_MgCa_PPsmooth.csv")
@@ -23,12 +23,11 @@ average_MgCa<-function(data) {
   proxy.bounds<-matrix(data = NA,nrow(data),2) #create matrix with min and max of proxy data time
   colnames(proxy.bounds)<-c("min", "max")
     
-  for (i in 1:nrow(data)) {
-    x<-which(SSTproxy$index == i)
+  for (i in 1:length(MgCa_index)) {
+    x<-which(SSTproxy$index == MgCa_index[i])
     proxy.bounds[i,1]<-min(SSTproxy$year[x]) #find min and max for each site
     proxy.bounds[i,2]<-max(SSTproxy$year[x])
   }
-    
   for (i in 1:nrow(data)) {
     if (sampleRes_MgCa[i] > 100) {
       sampleRes_MgCa[i] <- 100
@@ -172,7 +171,7 @@ average_O18(GISSgTcsLM_O18_PPagg)
 GISSgTcsLM_O18_PPavg<-avg
 
 #save files
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/average/")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/average/")
 write.csv(GISSgTckLM_O18_PPavg, file = "GISSgTckLM_O18_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTckLM_MgCa_PPavg, file = "GISSgTckLM_MgCa_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPavg, file = "GISSgTKckLM_O18_PPavg.csv", row.names = FALSE)

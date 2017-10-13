@@ -1,11 +1,17 @@
+#Stephanie Pennington | PSR summer research
+#Pseudoproxy test
+#Created 10-6-17
+
+#pull out MgCa indices from SST proxy dataframe
+MgCa_index<-MgCa$index
 
 #pseudo_length<-function(data) {
-  psr_pseudo<-matrix(data = 0, 31, 1)
-  for (i in 1:31) {
+  psr_pseudo<-matrix(data = 0, 44, 1)
+  for (i in 1:44) {
     z<-0
-    x<-which(GISSgTcsLM_MgCa_PPavg[,1] == i)
+    x<-which(GISSgTKckLM_O18_PPavg[,1] == i)
     for (j in 1:length(x)) {
-      if (GISSgTcsLM_MgCa_PPavg[,2][x[j]] >= 850 & GISSgTcsLM_MgCa_PPavg[,2][x[j]] <= 1850) {
+      if (GISSgTKckLM_O18_PPavg[,2][x[j]] >= 850 & GISSgTKckLM_O18_PPavg[,2][x[j]] <= 1850) {
         z<-z+1
       }
     }
@@ -28,9 +34,9 @@ for (i in 1:44) {
 }
 
 psr_SSTproxy<-matrix(data = 0, 31, 1)
-for (i in 1:31) {
+for (i in 1:length(MgCa_index)) {
   z<-0
-  x<-which(SSTproxy$index == i)
+  x<-which(SSTproxy$index == MgCa_index[i])
   for (j in 1:length(x)) {
     if (SSTproxy$year[x[j]] >= 850 & SSTproxy$year[x[j]] <= 1850) {
       z<-z+1
