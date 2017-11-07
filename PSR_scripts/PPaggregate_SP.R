@@ -6,13 +6,13 @@
 library(miscTools)
 
 #read in pseudoproxy timeseries data
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/noise")
-GISSgTckLM_O18_PP<-read.csv("GISSgTckLM_O18_PP.csv")
-GISSgTKckLM_O18_PP<-read.csv("GISSgTKckLM_O18_PP.csv")
-GISSgTcsLM_O18_PP<-read.csv("GISSgTcsLM_O18_PP.csv")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/model_data/")
+GISSgTckLM_O18<-read.csv("GISSgTckLM_O18.csv")
+GISSgTKckLM_O18<-read.csv("GISSgTKckLM_O18.csv")
+GISSgTcsLM_O18<-read.csv("GISSgTcsLM_O18.csv")
 
 #read in smoothed marine sediment pseudoproxy data
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth")
 GISSgTckLM_O18_PPsmooth<-read.csv("GISSgTckLM_O18_PPsmooth.csv")
 GISSgTKckLM_O18_PPsmooth<-read.csv("GISSgTKckLM_O18_PPsmooth.csv")
 GISSgTcsLM_O18_PPsmooth<-read.csv("GISSgTcsLM_O18_PPsmooth.csv")
@@ -26,9 +26,9 @@ GISSgTcsLM_O18_PPsmooth_m<-data.matrix(GISSgTcsLM_O18_PPsmooth)
 otherIndex<- which(metadataO18$archiveType != "marine sediment" & metadataO18$archiveType != "marine sediments")
 
 #pull out bivalve and sclerosponge archive type data from original PPs
-GISSgTckLM_O18_PPother<-GISSgTckLM_O18_PP[otherIndex,]
-GISSgTKckLM_O18_PPother<-GISSgTKckLM_O18_PP[otherIndex,]
-GISSgTcsLM_O18_PPother<-GISSgTcsLM_O18_PP[otherIndex,]
+GISSgTckLM_O18_PPother<-GISSgTckLM_O18[otherIndex,]
+GISSgTKckLM_O18_PPother<-GISSgTKckLM_O18[otherIndex,]
+GISSgTcsLM_O18_PPother<-GISSgTcsLM_O18[otherIndex,]
 
 
 #GISSgTckLM_O18
@@ -56,7 +56,7 @@ for (i in 1:length(otherIndex)) {
 GISSgTcsLM_O18_PPagg<-data
 
 #save aggreagate timeseries for binning
-setwd("/Users/SP/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
+setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 write.csv(GISSgTckLM_O18_PPagg, file = "GISSgTckLM_O18_PPagg.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPagg, file = "GISSgTKckLM_O18_PPagg.csv", row.names = FALSE)
 write.csv(GISSgTcsLM_O18_PPagg, file = "GISSgTcsLM_O18_PPagg.csv", row.names = FALSE)

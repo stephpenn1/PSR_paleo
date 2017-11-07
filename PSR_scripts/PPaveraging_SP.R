@@ -2,6 +2,12 @@
 #Pseudoproxy averaging according to sample resolution
 #Created 7-18-17
 
+#set seed
+set.seed(54)
+
+#target SNR
+SNR<-0.5
+
 setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
 GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
@@ -14,6 +20,9 @@ GISSgTcsLM_MgCa_PPsmooth<-read.csv("GISSgTcsLM_MgCa_PPsmooth.csv")
 
 sampleRes_O18<-metadataO18[,4]
 sampleRes_MgCa<-MgCa[,5]
+
+#pull out MgCa indices from SST proxy dataframe
+MgCa_index<-MgCa$index
 
 #functions to average MgCa and O18 data
 average_MgCa<-function(data) {
@@ -70,6 +79,16 @@ average_MgCa<-function(data) {
       } 
     }
   }
+  
+  data.avg <- data.matrix(data.avg)
+  for (i in 1:nrow(data)) {
+    R<-nrow(data)
+    C<-ncol(data)
+    varNreq<-matrix(var(data.avg[i,], na.rm = TRUE)/(SNR^2),R,C)
+    N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+    SNRcheck<-matrix(sqrt(var(data.avg[i,], na.rm = TRUE)/var(N[i,])),R,C)
+  }
+  data.avg<-data.avg + N
   
   #transpose matrix to vector to create data frame
   PPavg<-na.omit(as.vector(t(data.avg)))
@@ -139,6 +158,16 @@ average_O18<-function(data) {
       } 
     }
   }
+  
+  data.avg <- data.matrix(data.avg)
+  for (i in 1:nrow(data)) {
+    R<-nrow(data)
+    C<-ncol(data)
+    varNreq<-matrix(var(data.avg[i,], na.rm = TRUE)/(SNR^2),R,C)
+    N<-matrix(rnorm(R*C,0,sqrt(varNreq)),R,C)
+    SNRcheck<-matrix(sqrt(var(data.avg[i,], na.rm = TRUE)/var(N[i,])),R,C)
+  }
+  data.avg<-data.avg + N
   
   #transpose matrix to vector
   PPavg<-na.omit(as.vector(t(data.avg)))
