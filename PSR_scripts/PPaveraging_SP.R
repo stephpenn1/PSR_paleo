@@ -8,12 +8,12 @@ set.seed(54)
 #target SNR
 SNR<-0.5
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
 GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
 GISSgTcsLM_O18_PPagg<-read.csv("GISSgTcsLM_O18_PPagg.csv")
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
 GISSgTckLM_MgCa_PPsmooth<-read.csv("GISSgTckLM_MgCa_PPsmooth.csv")
 GISSgTKckLM_MgCa_PPsmooth<-read.csv("GISSgTKckLM_MgCa_PPsmooth.csv")
 GISSgTcsLM_MgCa_PPsmooth<-read.csv("GISSgTcsLM_MgCa_PPsmooth.csv")
@@ -112,8 +112,8 @@ average_O18<-function(data) {
   
   for (i in 1:nrow(data)) {
     x<-which(O18proxy$index == i)
-    proxy.bounds[i,1]<-min(O18proxy$year[x]) #find min and max for each site
-    proxy.bounds[i,2]<-max(O18proxy$year[x])
+    proxy.bounds[i,1]<-min(O18proxy$year[x], na.rm = TRUE) #find min and max for each site
+    proxy.bounds[i,2]<-max(O18proxy$year[x], na.rm = TRUE)
   }
   
   for (i in 1:nrow(data)) {
@@ -200,7 +200,7 @@ average_O18(GISSgTcsLM_O18_PPagg)
 GISSgTcsLM_O18_PPavg<-avg
 
 #save files
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/average/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/average/")
 write.csv(GISSgTckLM_O18_PPavg, file = "GISSgTckLM_O18_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTckLM_MgCa_PPavg, file = "GISSgTckLM_MgCa_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPavg, file = "GISSgTKckLM_O18_PPavg.csv", row.names = FALSE)

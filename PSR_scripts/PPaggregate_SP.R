@@ -6,13 +6,13 @@
 library(miscTools)
 
 #read in pseudoproxy timeseries data
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/model_data/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/model_data/")
 GISSgTckLM_O18<-read.csv("GISSgTckLM_O18.csv")
 GISSgTKckLM_O18<-read.csv("GISSgTKckLM_O18.csv")
 GISSgTcsLM_O18<-read.csv("GISSgTcsLM_O18.csv")
 
 #read in smoothed marine sediment pseudoproxy data
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth")
 GISSgTckLM_O18_PPsmooth<-read.csv("GISSgTckLM_O18_PPsmooth.csv")
 GISSgTKckLM_O18_PPsmooth<-read.csv("GISSgTKckLM_O18_PPsmooth.csv")
 GISSgTcsLM_O18_PPsmooth<-read.csv("GISSgTcsLM_O18_PPsmooth.csv")
@@ -56,7 +56,7 @@ for (i in 1:length(otherIndex)) {
 GISSgTcsLM_O18_PPagg<-data
 
 #save aggreagate timeseries for binning
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
 write.csv(GISSgTckLM_O18_PPagg, file = "GISSgTckLM_O18_PPagg.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPagg, file = "GISSgTKckLM_O18_PPagg.csv", row.names = FALSE)
 write.csv(GISSgTcsLM_O18_PPagg, file = "GISSgTcsLM_O18_PPagg.csv", row.names = FALSE)

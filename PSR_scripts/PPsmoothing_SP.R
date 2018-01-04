@@ -4,7 +4,7 @@
 #Needs metadata from Proxybin_anomIND script
 #Created 7-6-17
 
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/model_data/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/model_data/")
 library(signal)
 
 #pull out only marine sediment archive type ------------------------------
@@ -28,7 +28,7 @@ GISSgTKckLM_O18_PPmarSed<-GISSgTKckLM_O18[sedIndex_O18,]
 GISSgTcsLM_O18_PPmarSed<-GISSgTcsLM_O18[sedIndex_O18,]
 
 #*note: O18 now has 40 rows*
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
 
 #save as CSV for smoothing
 write.csv(GISSgTckLM_O18_PPmarSed, file = "GISSgTckLM_O18_PPmarSed.csv", row.names = FALSE)
@@ -36,11 +36,11 @@ write.csv(GISSgTKckLM_O18_PPmarSed, file = "GISSgTKckLM_O18_PPmarSed.csv", row.n
 write.csv(GISSgTcsLM_O18_PPmarSed, file = "GISSgTcsLM_O18_PPmarSed.csv", row.names = FALSE)
 
 # calculate weighted moving average ---------------------------------------
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/marine_sediments");
 GISSgTckLM_O18_PPmarSed<-read.csv("GISSgTckLM_O18_PPmarSed.csv")
 GISSgTKckLM_O18_PPmarSed<-read.csv("GISSgTKckLM_O18_PPmarSed.csv")
 GISSgTcsLM_O18_PPmarSed<-read.csv("GISSgTcsLM_O18_PPmarSed.csv")
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/model_data/");
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/model_data/");
 GISSgTckLM_MgCa<-read.csv("GISSgTckLM_MgCa.csv")
 GISSgTKckLM_MgCa<-read.csv("GISSgTKckLM_MgCa.csv")
 GISSgTcsLM_MgCa<-read.csv("GISSgTcsLM_MgCa.csv")
@@ -209,7 +209,7 @@ for(i in 1:nrow(data)) {
 }
 
 #save
-setwd("/home/spenn1/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
 write.csv(GISSgTckLM_O18_PPsmooth, file = "GISSgTckLM_O18_PPsmooth.csv", row.names = FALSE)
 write.csv(GISSgTckLM_MgCa_PPsmooth, file = "GISSgTckLM_MgCa_PPsmooth.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPsmooth, file = "GISSgTKckLM_O18_PPsmooth.csv", row.names = FALSE)

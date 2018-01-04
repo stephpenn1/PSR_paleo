@@ -41,7 +41,11 @@ psr_O18proxy<-matrix(data = 0, 44, 1)
 for (i in 1:44) {
   z<-0
   x<-which(O18proxy$index == i)
-  for (j in 1:length(x)) {
+  length <- length(x)
+  if (i == 44) {
+    length <- length - 2
+  }
+  for (j in 1:length) {
     if (O18proxy$year[x[j]] >= 850 & O18proxy$year[x[j]] <= 1850) {
       z<-z+1
     }
@@ -65,22 +69,22 @@ for (i in 1:length(MgCa_index)) {
 #run functions
 #MgCa
 pseudo_MgCalength(GISSgTckLM_MgCa_PPavg) 
-GISSgTckLM_MgCa_PP<-psr_pseudo #rename output file as model simulation
+GISSgTckLM_MgCa_test<-psr_pseudo #rename output file as model simulation
 pseudo_MgCalength(GISSgTKckLM_MgCa_PPavg)
-GISSgTKckLM_MgCa_PPavg<-psr_pseudo
+GISSgTKckLM_MgCa_test<-psr_pseudo
 pseudo_MgCalength(GISSgTcsLM_MgCa_PPavg)
-GISSgTcsLM_MgCa_PPavg<-psr_pseudo
+GISSgTcsLM_MgCa_test<-psr_pseudo
 
 #O18
 pseudo_O18length(GISSgTckLM_O18_PPavg)
-GISSgTckLM_O18_PPavg<-psr_pseudo
+GISSgTckLM_O18_test<-psr_pseudo
 pseudo_O18length(GISSgTKckLM_O18_PPavg)
-GISSgTKckLM_O18_PPavg<-psr_pseudo
+GISSgTKckLM_O18_test<-psr_pseudo
 pseudo_O18length(GISSgTcsLM_O18_PPavg)
-GISSgTcsLM_O18_PPavg<-psr_pseudo
+GISSgTcsLM_O18_test<-psr_pseudo
 
 #plot
-plot(psr_SSTproxy, psr_pseudo,
+plot(psr_O18proxy, GISSgTckLM_O18_test,
      xlab = "no. of data points - SST Proxy Data",
      ylab = "no. of data points - GISSgTckLM_MgCa")
 title(main = "GISSgTckLM_MgCa")
