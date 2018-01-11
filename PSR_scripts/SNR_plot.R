@@ -33,11 +33,11 @@ setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/SNR/plots")
 for (i in 1:44) {
   mypath = file.path(paste("plot_", i, ".pdf", sep=""))
   pdf(mypath)
-  if (i != 25 & i != 26 & i != 44) {
-    max <- 200
-  } else {
-    max<-1000
-  }
+  #if (i != 25 & i != 26 & i != 44) {
+  #  max <- 200
+  #} else {
+  #  max<-1000
+  #}
   
   #SNR of .25
   plot(seq(1,ncol(SNR25)), SNR25[i,], type = "l", col = "red", xlim = c(0,max),

@@ -157,14 +157,14 @@ O18proxy <- na.omit(data.frame(O18[, c("lon", "lat", "SampleRes")]))
 SSTproxy <- na.omit(data.frame(SST[, c("lon", "lat", "SampleRes")]))
 barashProxy <- data.frame(barash[, c("Longitude", "Latitude", "Sed.rate..cm.ka.")])
 colnames(barashProxy) <- c("lon", "lat", "SampleRes")
-barashProxy$SampleRes <- barashProxy$SampleRes * 10
+barashProxy$SampleRes <- barashProxy$SampleRes / 10
 
 #concatenate datasets
 proxyComp <- rbind(O18proxy,SSTproxy)
 proxyComp <- rbind(proxyComp, barashProxy)
 
 #reformat data for ggplot
-fldProxy <- with(proxyComp, interp(x = lon, y = lat, z = SampleRes, duplicate = "mean"))
+fldProxy <- with(proxyComp, interp(x = lon, y = lat, z = SampleRes, duplicate = "strip"))
 dfProxy <- melt(fldProxy$z, na.rm = TRUE)
 names(dfProxy) <- c("x", "y", "SampleRes")
 dfProxy$lon <- fldProxy$x[dfProxy$x]
@@ -185,6 +185,31 @@ comp <- ggplot(data = dfProxy, aes(x = lon, y = lat, z = SampleRes)) +
         axis.title.x = element_text(size = 10, vjust = -0.5),
         axis.title.y = element_text(size = 10, vjust = 0.2),
         legend.text = element_text(size = 10))
+
+#extract data from extrapolated contour
+dcomp <- ggplot_build(comp)
+sres <- dcomp[["plot"]][["data"]][["SampleRes"]]
+lat <- dcomp[["plot"]][["data"]][["lat"]]
+lon <- dcomp[["plot"]][["data"]][["lon"]]
+
+#create data frame with values
+gridInfo <- data.frame(cbind(lat,lon, sres))
+x <- which(gridInfo$sres > 10)
+gridInfoM <- data.matrix(gridInfo)
+valInfo <- gridInfo[x,]
+
+plot(gridInfo[,1], gridInfo[,2], ylim = c(-100,150), xlim = c(-90,80))
+par(new = T)
+map('world', xlim = c(-65,65),
+    ylim = c(-100,150))
+
+#plot extrapolated data
+r_bbox <- make_bbox(lon, lat, gridInfo)
+
+bc_big <- get_map(location = r_bbox, source = "google", maptype = "terrain")
+
+ggmap(bc_big) +
+  geom_point(data = gridInfo, mapping = aes(x = lon, y = lat, color = sres))
 
 #plot 2
 ggmap(map)
@@ -212,5 +237,6 @@ map <- get_map(location = c(-130,-40,150,70), source = "google", maptype = "terr
 c <- ggplot(data, aes(x=Longitude, y=Latitude,  z = SampleRes))
 c<- ggmap(map)  
 c<- c + geom_point(data=proxyComp, aes(x=Longitude, y=Latitude,  colour = SampleRes))
-c<- c + scale_colour_gradient(low = "white",high = "red")
+c<- c + scale_colour_gradient(low = "pink",high = "red")
 c<- c + labs(colour = "Sedimentation Rate cm/century")
+c<- c + stat_contour()
