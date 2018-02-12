@@ -8,18 +8,18 @@ set.seed(54)
 #target SNR
 SNR<-0.5
 
-setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/aggregate2c/")
 GISSgTckLM_O18_PPagg<-read.csv("GISSgTckLM_O18_PPagg.csv")
 GISSgTKckLM_O18_PPagg<-read.csv("GISSgTKckLM_O18_PPagg.csv")
 GISSgTcsLM_O18_PPagg<-read.csv("GISSgTcsLM_O18_PPagg.csv")
 
-setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/smooth2b/")
 GISSgTckLM_MgCa_PPsmooth<-read.csv("GISSgTckLM_MgCa_PPsmooth.csv")
 GISSgTKckLM_MgCa_PPsmooth<-read.csv("GISSgTKckLM_MgCa_PPsmooth.csv")
 GISSgTcsLM_MgCa_PPsmooth<-read.csv("GISSgTcsLM_MgCa_PPsmooth.csv")
 
-sampleRes_O18<-metadataO18[,4]
-sampleRes_MgCa<-MgCa[,5]
+sampleRes_O18<-metadataO18[,4] #loaded from Proxybin_anomIND_SP.R
+sampleRes_MgCa<-MgCa[,5] #loaded from Proxybin_anomIND_SP.R
 
 #pull out MgCa indices from SST proxy dataframe
 MgCa_index<-MgCa$index
@@ -34,20 +34,20 @@ average_MgCa<-function(data) {
     
   for (i in 1:length(MgCa_index)) {
     x<-which(SSTproxy$index == MgCa_index[i])
-    proxy.bounds[i,1]<-min(SSTproxy$year[x]) #find min and max for each site
+    proxy.bounds[i,1]<-min(SSTproxy$year[x]) #find min and max for each site from SST proxy data
     proxy.bounds[i,2]<-max(SSTproxy$year[x])
   }
   for (i in 1:nrow(data)) {
-    if (sampleRes_MgCa[i] > 100) {
-      sampleRes_MgCa[i] <- 100
+    if (sampleRes_MgCa[i] > 70) { #set near annual resolution to 100 for simplicity
+      sampleRes_MgCa[i] <- 100 #100 samples/century
     } else {
       s<-sampleRes_MgCa[i]/100 
     }
   } 
   
   for (i in 1:nrow(data)) {
-    s<-sampleRes_MgCa[i]/100
-    binTotal<-ceiling(ncol(data) * s)
+    s<-sampleRes_MgCa[i]/100 #samples/century to samples/year
+    binTotal<-ceiling(ncol(data) * s) #find total number of bins based on sample res
     
     binAsize<-floor(ncol(data)/binTotal) #determine number of data points in bin A  
     nbinA<-binTotal - (ncol(data) %% binAsize) #determine quantity of first set of bins
@@ -61,10 +61,11 @@ average_MgCa<-function(data) {
     binEnd<-cumsum(binWidth) #bin start location
     binStart<-(binEnd-binWidth)+1 #bin end location
       
+    #take average
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
       data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
-      if(data.time[i,j] <= proxy.bounds[i,1] | data.time[i,j] >= proxy.bounds[i,2] | data.time[i,j] <= 850 | data.time[i,j] >= 1850) { #truncate time
+      if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2] | data.time[i,j] < 850 | data.time[i,j] > 1850) { #truncate time
         data.time[i,j]<-NA
         data.avg[i,j]<-NA
       }
@@ -80,6 +81,7 @@ average_MgCa<-function(data) {
     }
   }
   
+  #add noise
   data.avg <- data.matrix(data.avg)
   for (i in 1:nrow(data)) {
     R<-nrow(data)
@@ -117,7 +119,7 @@ average_O18<-function(data) {
   }
   
   for (i in 1:nrow(data)) {
-    if (sampleRes_O18[i] > 100) {
+    if (sampleRes_O18[i] > 60) {
       sampleRes_O18[i] <- 100
     } else {
       s<-sampleRes_O18[i]/100 
@@ -143,7 +145,7 @@ average_O18<-function(data) {
     for (j in 1:length(binWidth)) {
       data.avg[i,j]<-sum(data[i,binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
       data.time[i,j]<-sum(time[binStart[j]:binEnd[j]], na.rm = TRUE)/binWidth[j]
-      if(data.time[i,j] <= proxy.bounds[i,1] | data.time[i,j] >= proxy.bounds[i,2] | data.time[i,j] <= 850 | data.time[i,j] >= 1850) {
+      if(data.time[i,j] < proxy.bounds[i,1] | data.time[i,j] > proxy.bounds[i,2] | data.time[i,j] < 850 | data.time[i,j] > 1850) {
         data.time[i,j]<-NA
         data.avg[i,j]<-NA
       }
@@ -200,7 +202,7 @@ average_O18(GISSgTcsLM_O18_PPagg)
 GISSgTcsLM_O18_PPavg<-avg
 
 #save files
-setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/average/")
+setwd("/Users/sp/Desktop/PSR_paleo/PSR_data/pseudoproxy/average3/")
 write.csv(GISSgTckLM_O18_PPavg, file = "GISSgTckLM_O18_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTckLM_MgCa_PPavg, file = "GISSgTckLM_MgCa_PPavg.csv", row.names = FALSE)
 write.csv(GISSgTKckLM_O18_PPavg, file = "GISSgTKckLM_O18_PPavg.csv", row.names = FALSE)
